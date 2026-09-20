@@ -9,7 +9,8 @@
 রুট ফোল্ডারের **`deploy.mjs`** স্ক্রিপ্ট সবকিছু নিজে করে দেয়: D1/KV/R2 তৈরি, `wrangler.toml`-এ আইডি বসানো, মাইগ্রেশন, সিক্রেট জেনারেশন (JWT/VAPID), ফ্রন্টএন্ড বিল্ড, ডিপ্লয় ও লাইভ টেস্ট — **অ্যাপ ও API একটাই URL-এ** (আলাদা Pages সাইট/CORS লাগে না)।
 
 1. **Node.js 18+** ইনস্টল থাকতে হবে (`node -v` দিয়ে দেখুন)।
-2. টোকেন বানান: **dash.cloudflare.com → My Profile → API Tokens → Create Token → "Edit Cloudflare Workers"** টেমপ্লেট → Create → টোকেন কপি।
+2. টোকেন বানান: **dash.cloudflare.com → My Profile → API Tokens → Create Token → "Edit Cloudflare Workers"** টেমপ্লেট নিন → Permissions অংশে গিয়ে আরও দুটো যোগ করুন: **D1 → Edit** এবং **Workers R2 Storage → Edit** → Create Token → টোকেন কপি।
+   (ইতিমধ্যে বানানো টোকেন হলে: API Tokens তালিকায় টোকেনের পাশে **⋯ → Edit** → পারমিশন যোগ → Update Token — টোকেনের মান বদলায় না।)
 3. টার্মিনালে প্রজেক্ট ফোল্ডারে গিয়ে:
 
 ```bash

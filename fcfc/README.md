@@ -2,7 +2,7 @@
 
 **সম্পূর্ণ এন্ড-টু-এন্ড এনক্রিপ্টেড, রিয়েল-টাইম, ইনস্টলযোগ্য (PWA) চ্যাট অ্যাপ্লিকেশন** — টেলিগ্রাম/সিগন্যাল-অনুপ্রাণিত ডিজাইন, ফ্রেমার মোশন অ্যানিমেশন, ক্লাউডফ্লেয়ারের সম্পূর্ণ ইকোসিস্টেমে তৈরি।
 
-> ⚡ **ডিপ্লয় এক কমান্ডে:** টোকেন বানিয়ে (dash.cloudflare.com → My Profile → API Tokens → "Edit Cloudflare Workers" টেমপ্লেট):
+> ⚡ **ডিপ্লয় এক কমান্ডে:** টোকেন বানিয়ে (My Profile → API Tokens → **"Edit Cloudflare Workers"** টেমপ্লেট + এডিট করে **D1:Edit** ও **Workers R2 Storage:Edit** পারমিশন যোগ করে):
 > ```bash
 > export CLOUDFLARE_API_TOKEN="আপনার-টোকেন"   # Windows PS: $env:CLOUDFLARE_API_TOKEN="..."
 > node deploy.mjs

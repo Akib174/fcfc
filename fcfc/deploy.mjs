@@ -2,8 +2,11 @@
 // ⚡ fcfc — এক কমান্ডে ক্লাউডফ্লেয়ারে ডিপ্লয় (Worker + D1 + KV + R2 + frontend সব একসাথে, একটাই URL)
 //
 // ব্যবহার:
-//   ১) https://dash.cloudflare.com/profile/api-tokens → "Create Token"
-//      → "Edit Cloudflare Workers" টেমপ্লেট → Create → টোকেন কপি করুন
+//   ১) https://dash.cloudflare.com/profile/api-tokens → Create Token
+//      সবচেয়ে সহজ: "Edit Cloudflare Workers" টেমপ্লেট নিন, তারপর সেটি এডিট করে
+//      আরও দুটো পারমিশন যোগ করুন — D1:Edit এবং Workers R2 Storage:Edit
+//      (প্রয়োজনীয় সম্পূর্ণ তালিকা: Workers Scripts:Edit, Workers KV Storage:Edit,
+//       D1:Edit, Workers R2 Storage:Edit, Account Settings:Read, User Details:Read)
 //   ২) টার্মিনালে:
 //        macOS/Linux:   export CLOUDFLARE_API_TOKEN="আপনার-টোকেন"
 //        Windows PS:    $env:CLOUDFLARE_API_TOKEN="আপনার-টোকেন"
@@ -80,8 +83,12 @@ async function loadOrCreateSecrets() {
 function hints(out) {
   const h = []
   if (/subdomain/i.test(out)) h.push('→ ড্যাশবোর্ড → Workers & Pages → ডান-উপরে workers.dev সাবডোমেইন একবার সেট করে আবার চালান')
-  if (/not authorized|authentication code|10000|api token/i.test(out)) h.push('→ টোকেন ঠিক আছে কি দেখুন — "Edit Cloudflare Workers" টেমপ্লেট দিয়ে বানাতে হবে')
-  if (/r2|bucket/i.test(out) && /error|fail|denied/i.test(out)) h.push('→ R2 প্রথমবার ব্যবহারে ড্যাশবোর্ড → R2 ওপেন করে অ্যাক্টিভেট করতে হয় (ফ্রি লিমিটের নিচে চার্জ লাগে না)')
+  if (/10000|authentication error|not authorized/i.test(out)) h.push(
+    '→ টোকেনে এই রিসোর্সের পারমিশন নেই (কোড 10000)। ড্যাশবোর্ড → My Profile → API Tokens →\n' +
+    '  টোকেনের পাশে ⋯ (তিন ডট) → Edit → Permissions-এ যোগ করুন:\n' +
+    '     D1 → Edit   ·   Workers R2 Storage → Edit   ·   Workers KV Storage → Edit\n' +
+    '  তারপর Continue to summary → Update Token (টোকেনের মান বদলাবে না) — আবার node deploy.mjs চালান')
+  if (/r2|bucket/i.test(out) && /error|fail|denied/i.test(out) && !/10000|authentication/i.test(out)) h.push('→ R2 প্রথমবার ব্যবহারে ড্যাশবোর্ড → R2 ওপেন করে অ্যাক্টিভেট করতে হয় (ফ্রি লিমিটের নিচে চার্জ লাগে না)')
   return h.length ? '\n💡 ইশারা:\n' + h.join('\n') : ''
 }
 
@@ -94,7 +101,8 @@ async function main() {
     die('CLOUDFLARE_API_TOKEN সেট করা হয়নি।\n' +
       '  macOS/Linux : export CLOUDFLARE_API_TOKEN="টোকেন"\n' +
       '  Windows PS  : $env:CLOUDFLARE_API_TOKEN="টোকেন"\n' +
-      'টোকেন বানান: https://dash.cloudflare.com/profile/api-tokens → Create Token → "Edit Cloudflare Workers" টেমপ্লেট')
+      'টোকেন বানান: https://dash.cloudflare.com/profile/api-tokens → Create Token → "Edit Cloudflare Workers"\n' +
+      'টেমপ্লেট + অতিরিক্ত পারমিশন: D1:Edit, Workers R2 Storage:Edit (Workers KV Storage:Edit টেমপ্লেটেই থাকে)')
   if (parseInt(process.versions.node.split('.')[0], 10) < 18) die('Node.js 18+ দরকার (বর্তমান: ' + process.versions.node + ') — nodejs.org থেকে LTS ইনস্টল করুন')
 
   // ── ১. ডিপেন্ডেন্সি ──
