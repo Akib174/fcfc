@@ -1,0 +1,7 @@
+# wrangler dev-এর জন্য লোকাল সিক্রেট — এই ফাইলটি `.dev.vars` নামে কপি করুন
+JWT_SECRET=change-me-long-random-string
+REFRESH_PEPPER=change-me-another-random-string
+VAPID_PUBLIC_KEY=base64url-uncompressed-p256-point
+VAPID_PRIVATE_KEY=base64url-jwk-d-scalar
+PUSH_CONTACT=mailto:you@example.com
+CALLS_API_TOKEN=your-cloudflare-calls-api-token
